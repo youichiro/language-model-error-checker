@@ -30,7 +30,8 @@ class Checker:
 
     def best_choice(self, words, idx, choices):
         if self.reverse:
-            words.reverse()
+            words = words[::-1]
+            idx = len(words) - 1 - idx
         scores = []
         for c in choices:
             words[idx] = c
@@ -48,6 +49,11 @@ class Checker:
 
         idx = 0
         while idx < len(parts) - 1:
+            # 訂正
+            if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
+                best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
+                words[idx] = best_particle
+
             # 補完
             if is_missing(parts[idx], parts[idx + 1], reverse=self.reverse):
                 words.insert(idx+1, 'dummy')
@@ -55,21 +61,18 @@ class Checker:
             if words[idx] == 'dummy':
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
                 words[idx] = best_particle
-            # 訂正
-            if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
-                best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
-                words[idx] = best_particle
+
             idx += 1
-        
+
         if self.reverse:
             words.reverse()
         return ''.join(words)
-            
+
 
 def main():
     model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
     mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
-    reverse = False
+    reverse = True
 
     checker = Checker(model_file, mecab_dict_file, reverse=reverse)
 
