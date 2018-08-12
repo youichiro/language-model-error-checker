@@ -4,7 +4,7 @@ import MeCab
 class Mecab:
     def __init__(self, dict_file):
         self.t = MeCab.Tagger('-d {}'.format(dict_file))
-        
+
     def tagger(self, text):
         n = self.t.parse(text)
         lines = n.split('\n')

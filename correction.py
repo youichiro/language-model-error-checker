@@ -39,30 +39,27 @@ class Checker:
                 best_particle = 'hoge'
                 words.insert(idx+1, best_particle)
                 parts.insert(idx+1, '助詞-格助詞')
-            
             # 訂正
             if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
                 best_particle = 'huga'
                 words[idx] = best_particle
             idx += 1
-        
+
         return ''.join(words)
 
 def main():
-    model_file = ''
-    mecab_dict_file = ''
+    model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
+    mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
     reverse = False
-    
+
     checker = Checker(model_file, mecab_dict_file)
-    text = ''
-    while text != 'end':
-        text = input('>> ')
-        correct_sent = checker.correction(text, reverse=reverse)
-        print(correct_sent)
+    text = '彼が車買う'
+    correct_sent = checker.correction(text, reverse=reverse)
+    print(correct_sent)
 
 
 if __name__ == '__main__':
     words = ['彼', 'が', '車', '買う', '親', '売る']
     parts = ['名詞', '助詞-格助詞', '名詞', '動詞', '名詞', '動詞']
-    
+
     main()
