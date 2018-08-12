@@ -26,6 +26,17 @@ class Checker:
         self.lm = LM(model_file)
         self.mecab = Mecab(mecab_dict_file)
 
+
+    def best_choice(self, words, idx, choices):
+        scores = []
+        for c in choices:
+            words[idx] = c
+            score = self.lm.probability(words)
+            scores.append([score, c])
+        best_particle = max(scores)[1]
+        return best_particle
+
+
     def correction(self, text, reverse=True):
         words, parts = self.mecab.tagger(text)
         if reverse:
@@ -36,12 +47,14 @@ class Checker:
         while idx < len(parts) - 1:
             # 補完
             if is_missing(parts[idx], parts[idx + 1], reverse=reverse):
-                best_particle = 'hoge'
-                words.insert(idx+1, best_particle)
+                words.insert(idx+1, 'dummy')
                 parts.insert(idx+1, '助詞-格助詞')
+            if words[idx] == 'dummy':
+                best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
+                words[idx] = best_particle
             # 訂正
             if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
-                best_particle = 'huga'
+                best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
                 words[idx] = best_particle
             idx += 1
 
