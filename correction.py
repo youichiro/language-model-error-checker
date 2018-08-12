@@ -22,12 +22,15 @@ def is_missing(current_pos, next_pos, reverse=True):
             return False
 
 class Checker:
-    def __init__(self, model_file, mecab_dict_file):
+    def __init__(self, model_file, mecab_dict_file, reverse=True):
         self.lm = LM(model_file)
         self.mecab = Mecab(mecab_dict_file)
+        self.reverse = reverse
 
 
     def best_choice(self, words, idx, choices):
+        if self.reverse:
+            words.reverse()
         scores = []
         for c in choices:
             words[idx] = c
@@ -37,16 +40,16 @@ class Checker:
         return best_particle
 
 
-    def correction(self, text, reverse=True):
+    def correction(self, text):
         words, parts = self.mecab.tagger(text)
-        if reverse:
+        if self.reverse:
             words.reverse()
             parts.reverse()
 
         idx = 0
         while idx < len(parts) - 1:
             # 補完
-            if is_missing(parts[idx], parts[idx + 1], reverse=reverse):
+            if is_missing(parts[idx], parts[idx + 1], reverse=self.reverse):
                 words.insert(idx+1, 'dummy')
                 parts.insert(idx+1, '助詞-格助詞')
             if words[idx] == 'dummy':
@@ -57,22 +60,29 @@ class Checker:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
                 words[idx] = best_particle
             idx += 1
-
+        
+        if self.reverse:
+            words.reverse()
         return ''.join(words)
+            
 
 def main():
     model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
     mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
     reverse = False
 
-    checker = Checker(model_file, mecab_dict_file)
-    text = '彼が車買う'
-    correct_sent = checker.correction(text, reverse=reverse)
-    print(correct_sent)
+    checker = Checker(model_file, mecab_dict_file, reverse=reverse)
+
+    text = ''
+    while text != 'end':
+        text = input('>> ')
+        output = checker.correction(text)
+        print(output)
+
+    # text = '彼が車買う'
+    # correct_sent = checker.correction(text)
+    # print(correct_sent)
 
 
 if __name__ == '__main__':
-    words = ['彼', 'が', '車', '買う', '親', '売る']
-    parts = ['名詞', '助詞-格助詞', '名詞', '動詞', '名詞', '動詞']
-
     main()
