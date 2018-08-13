@@ -10,6 +10,7 @@ class Checker:
         self.lm = LM(model_file)
         self.mecab = Mecab(mecab_dict_file)
         self.reverse = reverse
+
         self.sent_num = self.correct_num = 0
         self.tp = self.tn = self.fp = self.fn = 0
         self.tp_s = self.tn_s = self.fp_s = self.fn_s = 0 #置換の精度
@@ -17,6 +18,7 @@ class Checker:
         self.err, self.res, self.ans = [], [], []
 
     def is_missing(self, current_pos, next_pos):
+        """助詞を補完するかを判断する"""
         if not self.reverse:
             if re.match(r'^(名詞|代名詞|接尾辞-名詞的).*?$', current_pos) \
             and not re.match(r'^(助詞|助動詞).*?$', next_pos) \
@@ -33,6 +35,7 @@ class Checker:
                 return False
 
     def best_choice(self, words, idx, choices):
+        """言語モデル確率の最も高い助詞を選択する"""
         if self.reverse:
             words = words[::-1]
             idx = len(words) - 1 - idx
@@ -48,6 +51,7 @@ class Checker:
 
 
     def eval_substitution(self, idx):
+        """置換のポイントを計算する"""
         if self.err[idx] != self.res[idx]:
             if self.res[idx] == self.ans[idx]: self.tp_s += 1
             elif self.res[idx] != self.ans[idx]: self.fp_s += 1
@@ -57,6 +61,7 @@ class Checker:
 
 
     def eval_completion(self, idx):
+        """補完のポイントを計算する"""
         if len(self.res) - len(self.err) == 1:
             if self.res[idx] == self.ans[idx]:
                 self.tp_c += 1
@@ -75,6 +80,7 @@ class Checker:
 
 
     def sum_eval(self):
+        """置換と補完のポイントを合算する"""
         self.tp = self.tp_s + self.tp_c
         self.tn = self.tn_s + self.tn_c
         self.fp = self.fp_s + self.fp_c
@@ -82,10 +88,12 @@ class Checker:
 
 
     def this_eval(self, prev_tp, prev_tn, prev_fp, prev_fn):
+        """文ごとのポイントを返す"""
         return [self.tp - prev_tp, self.tn - prev_tn, self.fp - prev_fp, self.fn - prev_fn]
 
 
     def show_final_eval(self):
+        """最終的な精度を表示する"""
         precision = self.tp / (self.tp + self.fp) * 100
         recall = self.tp / (self.tp + self.fn) * 100
         f_measure = 2 * precision * recall / (precision + recall)
@@ -101,6 +109,7 @@ class Checker:
 
 
     def show_substitution_eval(self):
+        """置換の精度を表示する"""
         precision = self.tp_s / (self.tp_s + self.fp_s) * 100
         recall = self.tp_s / (self.tp_s + self.fn_s) * 100
         f_measure = 2 * precision * recall / (precision + recall)
@@ -114,6 +123,7 @@ class Checker:
 
 
     def show_completion_eval(self):
+        """補完の精度を表示する"""
         precision = self.tp_c / (self.tp_c + self.fp_c) * 100
         recall = self.tp_c / (self.tp_c + self.fn_c) * 100
         f_measure = 2 * precision * recall / (precision + recall)
@@ -127,6 +137,7 @@ class Checker:
 
 
     def correction(self, err, ans):
+        """メイン処理"""
         self.sent_num += 1
         tp, tn, fp, fn = self.tp, self.tn, self.fp, self.fn
         words, parts = self.mecab.tagger(err)
@@ -171,7 +182,7 @@ class Checker:
         return ''.join(words), self.this_eval(tp, tn, fp, fn)
 
 
-def main():
+def test():
     model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
     mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
     reverse = True
@@ -188,4 +199,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()
