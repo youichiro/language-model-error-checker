@@ -11,7 +11,7 @@ class Checker:
         self.mecab = Mecab(mecab_dict_file)
         self.reverse = reverse
 
-        self.sent_num = self.correct_num = 0
+        self.sent = self.correct = self.error = 0
         self.tp = self.tn = self.fp = self.fn = 0
         self.tp_s = self.tn_s = self.fp_s = self.fn_s = 0 #置換の精度
         self.tp_c = self.tn_c = self.fp_c = self.fn_c = 0 #補完の精度
@@ -97,14 +97,15 @@ class Checker:
         precision = self.tp / (self.tp + self.fp) * 100
         recall = self.tp / (self.tp + self.fn) * 100
         f_measure = 2 * precision * recall / (precision + recall)
-        accuracy = self.correct_num / self.sent_num * 100
+        accuracy = self.correct / self.sent * 100
         result = """
         ----- Result -----
-        sent_num: {sent}
+        #sentence: {sent}, #errror: {error}
         #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
         F={f:2.2f}%, P={p:2.2f}%, R={r:2.2f}%, Acc={correct}/{sent}={a:2.2f}%
-        """.format(sent=self.sent_num, tp=self.tp, tn=self.tn, fp=self.fp, fn=self.fn,
-                   f=f_measure, p=precision, r=recall, correct=self.correct_num, a=accuracy)
+        """.format(sent=self.sent, error=self.error, tp=self.tp, tn=self.tn, 
+                   fp=self.fp, fn=self.fn, f=f_measure, p=precision, r=recall,
+                   correct=self.correct, a=accuracy)
         print(result)
 
 
@@ -138,7 +139,7 @@ class Checker:
 
     def correction(self, err, ans):
         """メイン処理"""
-        self.sent_num += 1
+        self.sent += 1
         tp, tn, fp, fn = self.tp, self.tn, self.fp, self.fn
         words, parts = self.mecab.tagger(err)
         ans_words, _ = self.mecab.tagger(ans)
@@ -155,7 +156,12 @@ class Checker:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
                 words[idx] = best_particle
                 self.res = words[:]
-                self.eval_substitution(idx)
+                try:
+                    self.eval_substitution(idx)
+                except IndexError as e:
+                    print(e)
+                    self.error += 1
+                    break
                 self.err = words[:]
 
             # 補完
@@ -170,12 +176,17 @@ class Checker:
                     words = words[:idx] + words[idx+1:]
                     parts = parts[:idx] + parts[idx + 1:]
                 self.res = words[:]
-                self.eval_completion(idx)
+                try:
+                    self.eval_completion(idx)
+                except IndexError as e:
+                    print(e)
+                    self.error += 1
+                    break
                 self.err = words[:]
 
             idx += 1
 
-        if words == ans_words: self.correct_num += 1
+        if words == ans_words: self.correct += 1
         if self.reverse: words = words[::-1]
         self.sum_eval()  #置換と補完の精度を合算
 
