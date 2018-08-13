@@ -14,9 +14,12 @@ with open(testdata_file, 'r') as f:
 for i, line in enumerate(tqdm(testdata)):
     text_id = i + 1
     ans, err = line.replace('\n', '').split('\t')
+    if err == ans:
+        print("err and ans are the same. text_id: {}".format(text_id))
+        continue
     res, evl = checker.correction(err, ans)
     if not res:
-        print("IndexError text_id: {}".format(text_id))
+        print("IndexError. text_id: {}".format(text_id))
         continue
     result = True if res == ans else False
     print("{}\t入力文\t{}\t{}".format(text_id, err, result))
