@@ -16,9 +16,9 @@ for i, line in enumerate(tqdm(testdata)):
     ans, err = line.replace('\n', '').split('\t')
     res, evl = checker.correction(err, ans)
     result = True if res == ans else False
-    print("{}\t入力文\t{}\t{}\n".format(text_id, err, result))
-    print("{}\t訂正文\t{}\t{}\n".format(text_id, res, result))
-    print("{}\t正解文\t{}\t{}\n".format(text_id, ans, result))
-    print(evl)
+    print("{}\t入力文\t{}\t{}".format(text_id, err, result))
+    print("{}\t訂正文\t{}\t{}".format(text_id, res, result))
+    print("{}\t正解文\t{}\t{}".format(text_id, ans, result))
+    print("\t\ttp: {}, tn: {}, fp: {}, fn: {}".format(evl[0], evl[1], evl[2], evl[3]))
 
 checker.show_final_eval()

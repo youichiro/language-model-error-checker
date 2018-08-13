@@ -82,7 +82,6 @@ class Checker:
         f_measure = 2 * precision * recall / (precision + recall)
         accuracy = self.correct_num / self.sent_num * 100
         result = """
-
         ----- Results -----
         sent_num: {sent}
         #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
