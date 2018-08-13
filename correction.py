@@ -10,6 +10,7 @@ class Checker:
         self.lm = LM(model_file)
         self.mecab = Mecab(mecab_dict_file)
         self.reverse = reverse
+        self.sent_num = self.correct_num = 0
         self.tp = self.tn = self.fp = self.fn = 0
         self.err, self.res, self.ans = [], [], []
 
@@ -71,7 +72,24 @@ class Checker:
             raise ValueError("eval error (completion).")
 
 
+    def show_final_eval(self):
+        precision = self.tp / (self.tp + self.fp) * 100
+        recall = self.tp / (self.tp + self.fn) * 100
+        f_measure = 2 * precision * recall / (precision + recall)
+        accuracy = self.correct_num / self.sent_num * 100
+        result = """
+        
+        ----- Results -----
+        sent_num: {sent}
+        #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
+        F={f:2.2f}%, P={p:2.2f}%, R={r:2.2f}%, Acc={correct}/{sent}={a:2.2f}%
+        """.format(sent=self.sent_num, tp=self.tp, tn=self.tn, fp=self.fp, fn=self.fn,
+                   f=f_measure, p=precision, r=recall, correct=self.correct_num, a=accuracy)
+        print(result)
+
+
     def correction(self, err, ans):
+        self.sent_num += 1
         words, parts = self.mecab.tagger(err)
         ans_words, _ = self.mecab.tagger(ans)
         if self.reverse:
@@ -108,8 +126,9 @@ class Checker:
 
             idx += 1
 
-        if self.reverse:
-            words = words[::-1]
+        if words == ans_words: self.correct_num += 1
+        if self.reverse: words = words[::-1]
+
         return ''.join(words)
 
 
@@ -120,8 +139,8 @@ def main():
 
     checker = Checker(model_file, mecab_dict_file, reverse=reverse)
 
-    text = ''
-    while text != 'end':
+    err = ''
+    while err != 'end':
         err = input('err > ')
         ans = input('ans > ')
         output = checker.correction(err, ans)
