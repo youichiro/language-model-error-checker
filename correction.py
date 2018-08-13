@@ -78,7 +78,7 @@ class Checker:
         f_measure = 2 * precision * recall / (precision + recall)
         accuracy = self.correct_num / self.sent_num * 100
         result = """
-        
+
         ----- Results -----
         sent_num: {sent}
         #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
@@ -100,7 +100,6 @@ class Checker:
 
         idx = 0
         while idx < len(parts) - 1:
-            print(idx, self.err, self.ans)
             # 訂正
             if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
