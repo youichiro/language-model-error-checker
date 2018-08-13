@@ -75,10 +75,10 @@ class Checker:
 
 
     def sum_eval(self):
-        self.tp == self.tp_s + self.tp_c
-        self.tn == self.tn_s + self.tn_c
-        self.fp == self.fp_s + self.fp_c
-        self.fn == self.fn_s + self.fn_c
+        self.tp = self.tp_s + self.tp_c
+        self.tn = self.tn_s + self.tn_c
+        self.fp = self.fp_s + self.fp_c
+        self.fn = self.fn_s + self.fn_c
 
 
     def this_eval(self, prev_tp, prev_tn, prev_fp, prev_fn):
