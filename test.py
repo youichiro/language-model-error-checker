@@ -14,10 +14,11 @@ with open(testdata_file, 'r') as f:
 for i, line in enumerate(tqdm(testdata)):
     text_id = i + 1
     ans, err = line.replace('\n', '').split('\t')
-    res = checker.correction(err, ans)
+    res, evl = checker.correction(err, ans)
     result = True if res == ans else False
     print("{}\t入力文\t{}\t{}\n".format(text_id, err, result))
     print("{}\t訂正文\t{}\t{}\n".format(text_id, res, result))
     print("{}\t正解文\t{}\t{}\n".format(text_id, ans, result))
+    print(evl)
 
 checker.show_final_eval()

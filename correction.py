@@ -72,6 +72,10 @@ class Checker:
             raise ValueError("eval error (completion).")
 
 
+    def this_eval(self, prev_tp, prev_tn, prev_fp, prev_fn):
+        return [self.tp - prev_tp, self.tn - prev_tn, self.fp - prev_fp, self.fn - prev_fn]
+
+
     def show_final_eval(self):
         precision = self.tp / (self.tp + self.fp) * 100
         recall = self.tp / (self.tp + self.fn) * 100
@@ -90,6 +94,7 @@ class Checker:
 
     def correction(self, err, ans):
         self.sent_num += 1
+        tp, tn, fp, fn = self.tp, self.tn, self.fp, self.fn
         words, parts = self.mecab.tagger(err)
         ans_words, _ = self.mecab.tagger(ans)
         if self.reverse:
@@ -128,7 +133,7 @@ class Checker:
         if words == ans_words: self.correct_num += 1
         if self.reverse: words = words[::-1]
 
-        return ''.join(words)
+        return ''.join(words), self.this_eval(tp, tn, fp, fn)
 
 
 def main():
@@ -142,9 +147,9 @@ def main():
     while err != 'end':
         err = input('err > ')
         ans = input('ans > ')
-        output = checker.correction(err, ans)
+        output, evl = checker.correction(err, ans)
         print(output)
-        print("tp: {}, tn: {}, fp: {}, fn: {}".format(checker.tp, checker.tn, checker.fp, checker.fn))
+        print(evl)
 
 
 if __name__ == '__main__':
