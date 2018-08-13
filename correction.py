@@ -69,19 +69,20 @@ class Checker:
                 self.ans = self.ans[:idx] + self.ans[idx+1:]
         else:
             raise ValueError("eval error (completion).")
-    
+
 
     def correction(self, err, ans):
         words, parts = self.mecab.tagger(err)
         ans_words, _ = self.mecab.tagger(ans)
-        assert len(words) == len(ans_words), '入力文と正解文で単語分割が異なります.'
         if self.reverse:
             words = words[::-1]
             parts = parts[::-1]
+            ans_words = ans_words[::-1]
         self.err, self.ans = words[:], ans_words[:]
 
         idx = 0
         while idx < len(parts) - 1:
+            print(idx, self.err, self.ans)
             # 訂正
             if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
@@ -121,10 +122,12 @@ def main():
 
     text = ''
     while text != 'end':
-        text = input('>> ')
-        output = checker.correction(text)
+        err = input('err > ')
+        ans = input('ans > ')
+        output = checker.correction(err, ans)
         print(output)
+        print("tp: {}, tn: {}, fp: {}, fn: {}".format(checker.tp, checker.tn, checker.fp, checker.fn))
 
-    
+
 if __name__ == '__main__':
     main()
