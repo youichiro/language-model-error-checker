@@ -3,7 +3,7 @@ from correction import Checker
 
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
-reverse = False
+reverse = True
 testdata_file = 'testdata/naist_gawonide.err'
 
 checker = Checker(model_file, mecab_dict_file, reverse=reverse)
