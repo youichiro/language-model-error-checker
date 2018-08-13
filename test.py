@@ -22,3 +22,5 @@ for i, line in enumerate(tqdm(testdata)):
     print("\t\ttp: {}, tn: {}, fp: {}, fn: {}".format(evl[0], evl[1], evl[2], evl[3]))
 
 checker.show_final_eval()
+checker.show_substitution_eval()
+checker.show_completion_eval()

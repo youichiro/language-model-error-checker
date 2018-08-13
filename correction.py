@@ -12,6 +12,8 @@ class Checker:
         self.reverse = reverse
         self.sent_num = self.correct_num = 0
         self.tp = self.tn = self.fp = self.fn = 0
+        self.tp_s = self.tn_s = self.fp_s = self.fn_s = 0 #置換の精度
+        self.tp_c = self.tn_c = self.fp_c = self.fn_c = 0 #補完の精度
         self.err, self.res, self.ans = [], [], []
 
     def is_missing(self, current_pos, next_pos):
@@ -45,31 +47,38 @@ class Checker:
         return best_particle
 
 
-    def eval_correction(self, idx):
+    def eval_substitution(self, idx):
         if self.err[idx] != self.res[idx]:
-            if self.res[idx] == self.ans[idx]: self.tp += 1
-            elif self.res[idx] != self.ans[idx]: self.fp += 1
+            if self.res[idx] == self.ans[idx]: self.tp_s += 1
+            elif self.res[idx] != self.ans[idx]: self.fp_s += 1
         elif self.err[idx] == self.res[idx]:
-            if self.res[idx] == self.ans[idx]: self.tn += 1
-            elif self.res[idx] != self.ans[idx]: self.fn += 1
+            if self.res[idx] == self.ans[idx]: self.tn_s += 1
+            elif self.res[idx] != self.ans[idx]: self.fn_s += 1
 
 
     def eval_completion(self, idx):
         if len(self.res) - len(self.err) == 1:
             if self.res[idx] == self.ans[idx]:
-                self.tp += 1
+                self.tp_c += 1
             else:
-                self.fp += 1
+                self.fp_c += 1
                 if self.err[idx] == self.ans[idx]:
                     self.ans = self.ans[:idx] + ['dummy'] + self.ans[idx:]
         elif len(self.res) - len(self.err) == 0:
             if self.res[idx] == self.ans[idx]:
-                self.tn += 1
+                self.tn_c += 1
             else:
-                self.fn += 1
+                self.fn_c += 1
                 self.ans = self.ans[:idx] + self.ans[idx+1:]
         else:
             raise ValueError("eval error (completion).")
+
+
+    def sum_eval(self):
+        self.tp == self.tp_s + self.tp_c
+        self.tn == self.tn_s + self.tn_c
+        self.fp == self.fp_s + self.fp_c
+        self.fn == self.fn_s + self.fn_c
 
 
     def this_eval(self, prev_tp, prev_tn, prev_fp, prev_fn):
@@ -82,12 +91,38 @@ class Checker:
         f_measure = 2 * precision * recall / (precision + recall)
         accuracy = self.correct_num / self.sent_num * 100
         result = """
-        ----- Results -----
+        ----- Result -----
         sent_num: {sent}
         #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
         F={f:2.2f}%, P={p:2.2f}%, R={r:2.2f}%, Acc={correct}/{sent}={a:2.2f}%
         """.format(sent=self.sent_num, tp=self.tp, tn=self.tn, fp=self.fp, fn=self.fn,
                    f=f_measure, p=precision, r=recall, correct=self.correct_num, a=accuracy)
+        print(result)
+
+
+    def show_substitution_eval(self):
+        precision = self.tp_s / (self.tp_s + self.fp_s) * 100
+        recall = self.tp_s / (self.tp_s + self.fn_s) * 100
+        f_measure = 2 * precision * recall / (precision + recall)
+        result = """
+        ----- Substitution Result -----
+        #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
+        F={f:2.2f}%, P={p:2.2f}%, R={r:2.2f}%
+        """.format(tp=self.tp_s, tn=self.tn_s, fp=self.fp_s, fn=self.fn_s,
+                   f=f_measure, p=precision, r=recall)
+        print(result)
+
+
+    def show_completion_eval(self):
+        precision = self.tp_c / (self.tp_c + self.fp_c) * 100
+        recall = self.tp_c / (self.tp_c + self.fn_c) * 100
+        f_measure = 2 * precision * recall / (precision + recall)
+        result = """
+        ----- Completion Result -----
+        #TP: {tp}, #TN: {tn}, #FP: {fp}, #FN: {fn}
+        F={f:2.2f}%, P={p:2.2f}%, R={r:2.2f}%
+        """.format(tp=self.tp_c, tn=self.tn_c, fp=self.fp_c, fn=self.fn_c,
+                   f=f_measure, p=precision, r=recall)
         print(result)
 
 
@@ -104,12 +139,12 @@ class Checker:
 
         idx = 0
         while idx < len(parts) - 1:
-            # 訂正
+            # 置換
             if parts[idx] == '助詞-格助詞' and words[idx] in TARGET_PARTICLES:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
                 words[idx] = best_particle
                 self.res = words[:]
-                self.eval_correction(idx)
+                self.eval_substitution(idx)
                 self.err = words[:]
 
             # 補完
@@ -131,6 +166,7 @@ class Checker:
 
         if words == ans_words: self.correct_num += 1
         if self.reverse: words = words[::-1]
+        self.sum_eval()  #置換と補完の精度を合算
 
         return ''.join(words), self.this_eval(tp, tn, fp, fn)
 
