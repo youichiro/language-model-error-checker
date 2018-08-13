@@ -3,7 +3,7 @@ from correction import Checker
 
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
-reverse = True
+reverse = False
 testdata_file = 'testdata/naist_gawonide.err'
 
 checker = Checker(model_file, mecab_dict_file, reverse=reverse)
@@ -15,6 +15,9 @@ for i, line in enumerate(tqdm(testdata)):
     text_id = i + 1
     ans, err = line.replace('\n', '').split('\t')
     res, evl = checker.correction(err, ans)
+    if not res:
+        print("IndexError text_id: {}".format(text_id))
+        continue
     result = True if res == ans else False
     print("{}\t入力文\t{}\t{}".format(text_id, err, result))
     print("{}\t訂正文\t{}\t{}".format(text_id, res, result))
@@ -24,3 +27,4 @@ for i, line in enumerate(tqdm(testdata)):
 checker.show_final_eval()
 checker.show_substitution_eval()
 checker.show_completion_eval()
+

@@ -159,9 +159,9 @@ class Checker:
                 try:
                     self.eval_substitution(idx)
                 except IndexError as e:
-                    print(e)
                     self.error += 1
-                    break
+                    self.sent -= 1
+                    return None, None
                 self.err = words[:]
 
             # 補完
@@ -179,9 +179,9 @@ class Checker:
                 try:
                     self.eval_completion(idx)
                 except IndexError as e:
-                    print(e)
                     self.error += 1
-                    break
+                    self.sent -= 1
+                    return None, None
                 self.err = words[:]
 
             idx += 1
