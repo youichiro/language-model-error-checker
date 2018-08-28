@@ -158,7 +158,7 @@ class Checker:
                 self.res = words[:]
                 try:
                     self.eval_substitution(idx)
-                except IndexError as e:
+                except IndexError:
                     self.error += 1
                     self.sent -= 1
                     return None, None

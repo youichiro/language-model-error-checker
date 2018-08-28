@@ -4,16 +4,20 @@ from correction import Checker
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
 reverse = True
-testdata_file = 'testdata/naist_gawonide.err'
-
+testdata_crr_file = 'testdata/naist_gawonide.crr'
+testdata_err_file = 'testdata/naist_gawonide.err'
 checker = Checker(model_file, mecab_dict_file, reverse=reverse)
 
-with open(testdata_file, 'r') as f:
-    testdata = f.readlines()
+with open(testdata_crr_file, 'r') as f:
+    testdata_crr = f.readlines()
+with open(testdata_err_file, 'r') as f:
+    testdata_err = f.readlines()
+assert len(testdata_crr) == len(testdata_err)
 
-for i, line in enumerate(tqdm(testdata)):
+for i in range(len(testdata_crr)):
     text_id = i + 1
-    ans, err = line.replace('\n', '').split('\t')
+    ans = testdata_crr[i].replace('\n', '')
+    err = testdata_err[i].replace('\n', '')
     if err == ans:
         print("err and ans are the same. text_id: {}".format(text_id))
         continue
@@ -30,4 +34,3 @@ for i, line in enumerate(tqdm(testdata)):
 checker.show_final_eval()
 checker.show_substitution_eval()
 checker.show_completion_eval()
-
