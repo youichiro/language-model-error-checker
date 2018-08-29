@@ -1,5 +1,5 @@
 import re
-from culculator import LM
+from calculator import LM
 from mecab import Mecab
 
 TARGET_PARTICLES = ['が', 'を', 'に', 'で']
