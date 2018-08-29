@@ -3,11 +3,16 @@ import random
 from tqdm import tqdm
 from mecab import Mecab
 
-mecab_dic = '/usr/local/mecab/lib/mecab/dic/unidic'
+
+GEN_SIZE = 100000
+src_file = 'resource/mai2000.all.txt'
+ans_save_file = 'error_corpus/mai2000.100k.ans'
+err_save_file = 'error_corpus/mai2000.100k.err'
+
+mecab_dic = '/tools/env/lib/mecab/dic/unidic'
 mecab = Mecab(mecab_dic)
 TARGETS = ['が', 'を', 'に', 'で']
 TARGET_PART = '助詞-格助詞'
-GEN_SIZE = 100
 
 
 def get_case_positions(words, pos_tags):
@@ -58,14 +63,10 @@ def generate_patterns(confusion_set):
 
 
 if __name__ == '__main__':
-    src_file = 'resource/mai2000.1k.txt'
-    ans_save_file = 'error_corpus/mai2000.1k.ans'
-    err_save_file = 'error_corpus/mai2000.1k.err'
-
     data = []
     with open(src_file, 'r') as f:
         src_lines = f.readlines()
-    
+
     for line in tqdm(src_lines):
         if len(data) > GEN_SIZE: break
         src_text = line.replace('\n', '')
