@@ -41,5 +41,5 @@ checker.show_final_eval()
 checker.show_substitution_eval()
 checker.show_completion_eval()
 
-bleu_score = compute_bleu(ans_data, res_data, smooth=False)
+bleu_score = compute_bleu(ans_data, res_data, smooth=True)[0]
 print('BLEU: {:.4f}'.format(bleu_score))
