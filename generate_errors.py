@@ -4,10 +4,10 @@ from tqdm import tqdm
 from mecab import Mecab
 
 
-GEN_SIZE = 100000
-src_file = 'resource/mai2000.all.txt'
-ans_save_file = 'error_corpus/mai2000.100k.ans'
-err_save_file = 'error_corpus/mai2000.100k.err'
+GEN_SIZE = 5000000
+src_file = 'resource/bccwj.txt'
+ans_save_file = 'error_corpus/bccwj.5M.ans'
+err_save_file = 'error_corpus/bccwj.5M.err'
 
 mecab_dic = '/tools/env/lib/mecab/dic/unidic'
 mecab = Mecab(mecab_dic)
@@ -63,12 +63,12 @@ def generate_patterns(confusion_set):
 
 
 if __name__ == '__main__':
-    data = []
     with open(src_file, 'r') as f:
         src_lines = f.readlines()
 
+    count = 0
     for line in tqdm(src_lines):
-        if len(data) > GEN_SIZE: break
+        if count > GEN_SIZE: break
         src_text = line.replace('\n', '')
         candidates = []
         words, parts = mecab.tagger(src_text)
@@ -93,11 +93,9 @@ if __name__ == '__main__':
                     candidates.append(error)
         if candidates:
             choice = random.choice(candidates)
-            data.append([src_text, choice])
+            count += 1
 
-    with open(ans_save_file, 'w') as f:
-        for ans, _ in data:
-            f.write(ans + '\n')
-    with open(err_save_file, 'w') as f:
-        for _, err in data:
-            f.write(err + '\n')
+        with open(ans_save_file, 'a') as f:
+            f.write(src_text + '\n')
+        with open(err_save_file, 'a') as f:
+            f.write(choice + '\n')

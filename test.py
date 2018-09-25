@@ -5,7 +5,7 @@ from bleu import compute_bleu
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
 reverse = True
-testdata_crr_file = 'testdata/naist_gawonide.crr'
+testdata_crr_file = 'testdata/naist_gawonide.ans'
 testdata_err_file = 'testdata/naist_gawonide.err'
 checker = Checker(model_file, mecab_dict_file, reverse=reverse)
 

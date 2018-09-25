@@ -20,6 +20,7 @@ class Checker:
     def is_missing(self, current_pos, next_pos):
         """助詞を補完するかを判断する"""
         if not self.reverse:
+            # TODO: 形状詞も含める？
             if re.match(r'^(名詞|代名詞|接尾辞-名詞的).*?$', current_pos) \
             and not re.match(r'^(助詞|助動詞).*?$', next_pos) \
             and not (current_pos == '名詞-数詞' and next_pos == '名詞-数詞'):
@@ -203,10 +204,11 @@ def test():
     err = ''
     while err != 'end':
         err = input('err > ')
-        ans = input('ans > ')
+        # ans = input('ans > ')
+        ans = err
         output, evl = checker.correction(err, ans)
         print(output)
-        print(evl)
+        # print(evl)
 
 
 if __name__ == '__main__':
