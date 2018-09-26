@@ -1,4 +1,5 @@
 import re
+import random
 from calculator import LM
 from mecab import Mecab
 
@@ -49,6 +50,11 @@ class Checker:
             scores.append([score, c])
         best_particle = max(scores)[1]
         return best_particle
+
+
+    def random_choice(self, choices):
+        """助詞をランダムに選択する"""
+        return random.choice(choices)
 
 
     def eval_substitution(self, idx):
