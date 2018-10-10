@@ -2,7 +2,7 @@ from tqdm import tqdm
 from correction import Checker
 from bleu import compute_bleu
 
-model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
+model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
 reverse = True
 testdata_ans_file = 'testdata/naist_gawonide.ans'

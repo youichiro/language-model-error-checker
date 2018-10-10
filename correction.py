@@ -51,12 +51,6 @@ class Checker:
         best_particle = max(scores)[1]
         return best_particle
 
-
-    def random_choice(self, choices):
-        """助詞をランダムに選択する"""
-        return random.choice(choices)
-
-
     def eval_substitution(self, idx):
         """置換のポイントを計算する"""
         if self.err[idx] != self.res[idx]:
@@ -65,7 +59,6 @@ class Checker:
         elif self.err[idx] == self.res[idx]:
             if self.res[idx] == self.ans[idx]: self.tn_s += 1
             elif self.res[idx] != self.ans[idx]: self.fn_s += 1
-
 
     def eval_completion(self, idx):
         """補完のポイントを計算する"""
@@ -85,7 +78,6 @@ class Checker:
         else:
             raise ValueError("eval error (completion).")
 
-
     def sum_eval(self):
         """置換と補完のポイントを合算する"""
         self.tp = self.tp_s + self.tp_c
@@ -93,11 +85,9 @@ class Checker:
         self.fp = self.fp_s + self.fp_c
         self.fn = self.fn_s + self.fn_c
 
-
     def this_eval(self, prev_tp, prev_tn, prev_fp, prev_fn):
         """文ごとのポイントを返す"""
         return [self.tp - prev_tp, self.tn - prev_tn, self.fp - prev_fp, self.fn - prev_fn]
-
 
     def show_final_eval(self):
         """最終的な精度を表示する"""
@@ -115,7 +105,6 @@ class Checker:
                    correct=self.correct, a=accuracy)
         print(result)
 
-
     def show_substitution_eval(self):
         """置換の精度を表示する"""
         precision = self.tp_s / (self.tp_s + self.fp_s) * 100
@@ -129,7 +118,6 @@ class Checker:
                    f=f_measure, p=precision, r=recall)
         print(result)
 
-
     def show_completion_eval(self):
         """補完の精度を表示する"""
         precision = self.tp_c / (self.tp_c + self.fp_c) * 100
@@ -142,7 +130,6 @@ class Checker:
         """.format(tp=self.tp_c, tn=self.tn_c, fp=self.fp_c, fn=self.fn_c,
                    f=f_measure, p=precision, r=recall)
         print(result)
-
 
     def correction(self, err, ans):
         """メイン処理"""
@@ -210,11 +197,9 @@ def test():
     err = ''
     while err != 'end':
         err = input('err > ')
-        # ans = input('ans > ')
         ans = err
         output, evl = checker.correction(err, ans)
         print(output)
-        # print(evl)
 
 
 if __name__ == '__main__':
