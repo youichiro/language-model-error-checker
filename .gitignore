@@ -2,7 +2,4 @@ __pycache__
 .python-version
 .DS_Store
 results/*
-testdata/*
-resource/*
-error_corpus/*
 !__init__.py
