@@ -2,10 +2,9 @@ import re
 from calculator import LM
 
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
-reverse = True
 test_file = '/lab/ogawa/gec-classifier/datasets/naist_gawonide.test.wkt' # ex) 私 <を> 走る
 TARGET_PARTICLES = ['が', 'を', 'に', 'で']
-lm = LM(model_file, reverse)
+lm = LM(model_file)
 
 
 def lm_choice(text, target_idx):
