@@ -2,13 +2,12 @@ import re
 from calculator import LM
 
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
-test_file = '/lab/ogawa/gec-classifier/datasets/naist_gawonide.test.wkt' # ex) 私 <を> 走る
+test_file = '/lab/ogawa/gec-classifier/datasets/naist_gawonide.test.wkt'
 TARGET_PARTICLES = ['が', 'を', 'に', 'で']
 lm = LM(model_file)
 
 
 def lm_choice(text, target_idx):
-    """text: 私 X 走る, target_idx: 2"""
     scores = []
     for p in TARGET_PARTICLES:
         candidate = text[:target_idx] + p + text[target_idx+1:]
