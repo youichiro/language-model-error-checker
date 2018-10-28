@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 from calculator import LM
 from mecab import Mecab
@@ -43,8 +44,9 @@ class Checker:
             # 置換
             if parts[idx] == TARGET_POS and words[idx] in TARGET_PARTICLES:
                 best_particle = self.best_choice(words, idx, TARGET_PARTICLES)
-                words[idx] = best_particle
-                fix_flags[idx] = 1
+                if words[idx] != best_particle:
+                    words[idx] = best_particle
+                    fix_flags[idx] = 1
             # 補完
             if self.is_missing(parts[idx], parts[idx + 1]):
                 words.insert(idx+1, 'dummy')
@@ -62,12 +64,12 @@ class Checker:
             idx += 1
 
         words = words[::-1]
-        fix_flags[::-1]
-        return [(words, is_fix) for word, is_fix in zip(words, fix_flags)]
+        fix_flags = fix_flags[::-1]
+        return [(word, is_fix) for word, is_fix in zip(words, fix_flags)]
 
 
 def test():
-    model_file = '/lab/ogawa/tools/kenlm/data/nikkei_all.binary'
+    model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
     mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
     checker = Checker(model_file, mecab_dict_file)
     text = ''
