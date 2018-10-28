@@ -180,8 +180,10 @@ class Checker:
 
             idx += 1
 
-        if words == ans_words: self.correct += 1
-        if self.reverse: words = words[::-1]
+        if words == ans_words:
+            self.correct += 1
+        if self.reverse:
+            words = words[::-1]
         self.sum_eval()  #置換と補完の精度を合算
 
         return ''.join(words), self.this_eval(tp, tn, fp, fn)
