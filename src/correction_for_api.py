@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from .calculator import LM
-from mecab import Mecab
+from .mecab import Mecab
 
 TARGET_PARTICLES = ['が', 'を', 'に', 'で']
 TARGET_POS = '助詞-格助詞'
