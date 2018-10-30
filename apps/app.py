@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from mecab import Mecab
 # from correction_for_api import Checker
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
 mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
