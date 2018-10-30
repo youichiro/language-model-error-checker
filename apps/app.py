@@ -14,7 +14,8 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    return render_template('checker.html')
+    base_url = 'grammatical-error-checker'
+    return render_template('checker.html', base_url=base_url)
 
 
 @app.route('/api/correction', methods=['GET'])

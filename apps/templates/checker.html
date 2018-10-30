@@ -21,7 +21,6 @@
 </div>
 {% endblock %}
 
-
 {% block javascript %}
 <script>
     //リアルタイムキー入力を獲得
@@ -29,7 +28,7 @@
         var str = $(this).val();
         $.ajax({
             type: "GET",
-            url: "grammatical-error-checker/api/correction",
+            url: "{{ base_url }}/api/correction",
             data: {
                 "input_text": str
             },
@@ -43,7 +42,6 @@
                     token = result["tokens"][index];
                     word = token[0];
                     flag = token[1];
-                    console.log(word + ':' + flag + ' ');
                     if (flag == 1) {
                         s = $("<button type='button' class='btn btn-warning' style='margin: 1px 1px;'>" + word + '</button>');
                     } else {
