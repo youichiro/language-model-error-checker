@@ -15,7 +15,7 @@ def checker():
 
 
 @app.route('/api/correction', methods=['GET'])
-def test():
+def correction_api():
     text = request.args.get('input_text')
     words, _ = mecab.tagger(text)
     tokens = [[word, 0] for word in words]
