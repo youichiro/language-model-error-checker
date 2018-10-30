@@ -1,6 +1,5 @@
 from tqdm import tqdm
 from correction import Checker
-from bleu import compute_bleu
 
 model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
 mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
@@ -39,5 +38,4 @@ checker.show_final_eval()
 checker.show_substitution_eval()
 checker.show_completion_eval()
 
-bleu_score = compute_bleu(ans_data, res_data, smooth=True)[0]
 print('BLEU: {:.4f}'.format(bleu_score))

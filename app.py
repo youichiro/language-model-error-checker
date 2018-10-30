@@ -1,8 +1,7 @@
-import sys
-sys.path.append('..')
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from mecab import Mecab
-from correction_for_api import Checker
+from src.mecab import Mecab
+from src.correction_for_api import Checker
+
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -14,7 +13,7 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    base_url = 'grammatical-error-checker'
+    base_url = ''
     return render_template('checker.html', base_url=base_url)
 
 
