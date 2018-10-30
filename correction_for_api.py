@@ -65,7 +65,7 @@ class Checker:
 
         words = words[::-1]
         fix_flags = fix_flags[::-1]
-        return [(word, is_fix) for word, is_fix in zip(words, fix_flags)]
+        return [[word, is_fix] for word, is_fix in zip(words, fix_flags)]
 
 
 def test():

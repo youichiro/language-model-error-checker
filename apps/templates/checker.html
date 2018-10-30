@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>格助詞誤りチェッカー</h1>
+<hr>
+
+<form action="/" method="POST">
+    <div class="form-group">
+        <textarea class="form-control" id="input_text" row="5"
+            name="input_text" placeholder="ここに文を入力"></textarea>
+    </div>
+</form>
+
+<br>
+
+<div class="card">
+    <div class="card-header">結果</div>
+    <div class="card-body">
+        <div id="result"></div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    //リアルタイムキー入力を獲得
+    $("#input_text").keyup(function() {
+        var str = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "api/correction",
+            data: {
+                "input_text": str
+            },
+            contentType: "application/JSON",
+            dataType: "JSON",
+            scriptCharset: "utf-8",
+
+            success: function(result) {
+                $("#result").html("");
+                for (index in result["tokens"]) {
+                    token = result["tokens"][index];
+                    word = token[0];
+                    flag = token[1];
+                    console.log(word + ':' + flag + ' ');
+                    if (flag == 1) {
+                        s = $("<button type='button' class='btn btn-danger'>" + word + '</button>');
+                    } else {
+                        s = $("<button type='button' class='btn btn-outline-secondary'>" + word + '</button>');
+                    }
+                    $("#result").append(s);
+                }
+            },
+
+            error: function(xhr, status, err) {
+                console.log("error");
+            }
+        });
+    });
+</script>
+{% endblock %}
