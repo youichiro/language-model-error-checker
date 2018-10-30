@@ -69,8 +69,8 @@ class Checker:
 
 
 def test():
-    model_file = '/lab/ogawa/tools/kenlm/data/nikkei/nikkei_all_4.binary'
-    mecab_dict_file = '/tools/env/lib/mecab/dic/unidic'
+    model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
+    mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
     checker = Checker(model_file, mecab_dict_file)
     text = ''
     while text != 'end':
