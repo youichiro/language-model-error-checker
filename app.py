@@ -25,6 +25,7 @@ def correction_api():
     for text in texts:
         text = text.strip()
         tokens += checker.correction(text)
+        tokens += [["<br>", 0]]
     return jsonify(({'tokens': tokens}))
 
 
