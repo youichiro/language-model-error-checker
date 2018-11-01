@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from collections import OrderedDict
 from .calculator import LM
 from .mecab import Mecab
 
@@ -23,8 +24,7 @@ class Checker:
     def best_choice(self, words, idx, choices):
         words = words[::-1]
         idx = len(words) - 1 - idx
-
-        score = {}
+        score = OrderedDict()
         for c in choices:
             if c:
                 score[c] = self.lm.probability(words[:idx] + [c] + words[idx+1:])
@@ -32,17 +32,9 @@ class Checker:
                 score['none'] = self.lm.probability(words[:idx] + words[idx+1:])
         best_particle = max(score, key=score.get)
         best_particle = '' if best_particle == 'none' else best_particle
+        score = OrderedDict(sorted(score.items(), key=lambda x: x[1], reverse=True)
         return best_particle, score
 
-        # scores = []
-        # for c in choices:
-        #     if c:
-        #         score = self.lm.probability(words[:idx] + [c] + words[idx+1:])
-        #     else:
-        #         score = self.lm.probability(words[:idx] + words[idx+1:])
-        #     scores.append([score, c])
-        # best_particle = max(scores)[1]
-        # return best_particle
 
     def correction(self, text):
         words, parts = self.mecab.tagger(text)
@@ -82,7 +74,7 @@ class Checker:
         words = words[::-1]
         fix_flags = fix_flags[::-1]
         scores = scores[::-1]
-        return [[word, is_fix, score] for word, is_fix in zip(words, fix_flags, scores)]
+        return [[word, is_fix, score] for word, is_fix, score in zip(words, fix_flags, scores)]
 
 
 def test():
