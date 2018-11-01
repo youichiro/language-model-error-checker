@@ -9,6 +9,47 @@ body {
   height: 100%;
 }
 
+#result {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.token-item {
+  align-self: flex-start;
+}
+
+.token-btn1 {
+  margin: 1px 1px;
+}
+
+.token-btn2 {
+  margin: 1px 1px;
+}
+
+.token-info {
+  position: relative;
+  display: none;
+  margin: 10px 0;
+  padding: 10px 10px;
+  color: #555;
+  background: #e0edff;
+  pointer-events: none;
+}
+
+.token-info::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 26%;
+  margin-left: -15px;
+  border: 15px solid transparent;
+  border-bottom: 15px solid #e0edff;
+}
+
+.token-btn1:hover + .token-info {
+  display: block;
+}
+
 .footer {
   position: fixed;
     bottom: 0;
