@@ -38,7 +38,7 @@ class Checker:
         scores = [s / sum(scores) * 100 for s in scores]
         d = {
             'keys': keys,
-            'scores': ['{:.1f}'.format(v) for k, v in sorted_score]
+            'scores': scores
         }
         return best_particle, d
 
