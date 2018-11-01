@@ -1,3 +1,4 @@
+import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from src.mecab import Mecab
 from src.correction_for_api import Checker
@@ -20,7 +21,7 @@ def top():
 @app.route('/api/correction', methods=['GET'])
 def correction_api():
     text = request.args.get('input_text')
-    texts = text.split('\n')
+    texts = re.split('[。\n]', text)
     tokens = []
     for text in texts:
         text = text.strip()
