@@ -20,8 +20,11 @@ def top():
 @app.route('/api/correction', methods=['GET'])
 def correction_api():
     text = request.args.get('input_text')
-    text = text.strip()  # 空白, 改行を削除
-    tokens = checker.correction(text)
+    texts = text.split('\n')
+    tokens = []
+    for text in texts:
+        text = text.strip()
+        tokens += checker.correction(text)
     return jsonify(({'tokens': tokens}))
 
 
