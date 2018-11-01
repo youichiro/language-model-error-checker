@@ -42,8 +42,10 @@
                     word = token[0];
                     flag = token[1];
                     if (flag == 1) {
+                        keys = token[2]["keys"];
+                        scores = token[2]["scores"];
                         s = $("<div class='token-item'><button type='button' class='btn btn-warning token-btn1'>" + word + "</button>\
-                              <div class='token-info'>ほげ\nふが</div></div>");
+                              <div class='token-info'>" + keys[0] + ": " + scores[0] + "%</div></div>");
                     } else {
                         s = $("<div class='token-item'><button type='button' class='btn btn-light token-btn2'>" + word + '</button></div>');
                     }

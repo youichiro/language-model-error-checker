@@ -34,8 +34,8 @@ class Checker:
         best_particle = '' if best_particle == 'none' else best_particle
         sorted_score = sorted(score.items(), key=lambda x: x[1], reverse=True)
         d = {
-            'keys': [k for k, v in sorted_score]
-            'values': [v for k, v in sorted_score]
+            'keys': [k for k, v in sorted_score],
+            'scores': ['{:.1f}'.format(v) for k, v in sorted_score]
         }
         return best_particle, d
 
@@ -45,40 +45,40 @@ class Checker:
         words = words[::-1]
         parts = parts[::-1]
         fix_flags = [0] * len(words)
-        scores = [{}] * len(words)
+        score_list = [{}] * len(words)
 
         idx = 0
         while idx < len(parts) - 1:
             # 置換
             if parts[idx] == TARGET_POS and words[idx] in TARGET_PARTICLES:
-                best_particle, score = self.best_choice(words, idx, TARGET_PARTICLES)
+                best_particle, scores = self.best_choice(words, idx, TARGET_PARTICLES)
                 if words[idx] != best_particle:
                     words[idx] = best_particle
                     fix_flags[idx] = 1
-                    scores[idx] = score
+                    score_list[idx] = scores
             # 補完
             if self.is_missing(parts[idx], parts[idx + 1]):
                 words.insert(idx+1, 'dummy')
                 parts.insert(idx+1, TARGET_POS)
                 fix_flags.insert(idx+1, 0)
-                scores.insert(idx+1, 0)
+                score_list.insert(idx+1, 0)
             if words[idx] == 'dummy':
-                best_particle, score = self.best_choice(words, idx, TARGET_PARTICLES + [''])
+                best_particle, scores = self.best_choice(words, idx, TARGET_PARTICLES + [''])
                 if best_particle:
                     words[idx] = best_particle
                     fix_flags[idx] = 1
-                    scores[idx] = score
+                    score_list[idx] = scores
                 else:
                     words = words[:idx] + words[idx+1:]
                     parts = parts[:idx] + parts[idx+1:]
                     fix_flags = fix_flags[:idx] + fix_flags[idx+1:]
-                    scores = scores[:idx] + scores[idx+1:]
+                    score_list = score_list[:idx] + score_list[idx+1:]
             idx += 1
 
         words = words[::-1]
         fix_flags = fix_flags[::-1]
-        scores = scores[::-1]
-        return [[word, is_fix, score] for word, is_fix, score in zip(words, fix_flags, scores)]
+        score_list = score_list[::-1]
+        return [[word, is_fix, score] for word, is_fix, score in zip(words, fix_flags, score_list)]
 
 
 def test():
