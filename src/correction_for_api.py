@@ -32,10 +32,10 @@ class Checker:
                 score['none'] = self.lm.probability(words[:idx] + words[idx+1:])
         best_particle = max(score, key=score.get)
         best_particle = '' if best_particle == 'none' else best_particle
-        score = dict(sorted(score.items(), key=lambda x: x[1], reverse=True))
+        sorted_score = sorted(score.items(), key=lambda x: x[1], reverse=True)
         d = {
-            'keys': list(score.keys()),
-            'values': list(score.values())
+            'keys': [k for k, v in sorted_score]
+            'values': [v for k, v in sorted_score]
         }
         return best_particle, d
 
