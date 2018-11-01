@@ -25,16 +25,15 @@
 <script>
     //リアルタイムキー入力を獲得
     $("#input_text").keyup(function() {
-        var str = $(this).val();
+        var inputData = {};
+        inputData["input_text"] = $(this).val();
         $.ajax({
             type: "GET",
             url: "{{ base_url }}/api/correction",
-            data: {
-                "input_text": str
-            },
+            data: inputData,
             contentType: "application/JSON",
             dataType: "JSON",
-            scriptCharset: "utf-8",
+            scriptCharset: "UTF-8",
 
             success: function(result) {
                 $("#result").html("");
