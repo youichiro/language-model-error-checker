@@ -42,14 +42,15 @@
                     word = token[0];
                     flag = token[1];
                     if (word == "<br>") {
-                        s = $("<br>")
-                    }
-                    if (flag == 1) {
-                        s = $("<button type='button' class='btn btn-warning' style='margin: 1px 1px;'>" + word + '</button>');
+                        $("result").append($("<br>"));
                     } else {
-                        s = $("<button type='button' class='btn btn-light' style='margin: 1px 1px;'>" + word + '</button>');
+                        if (flag == 1) {
+                            s = $("<button type='button' class='btn btn-warning' style='margin: 1px 1px;'>" + word + '</button>');
+                        } else {
+                            s = $("<button type='button' class='btn btn-light' style='margin: 1px 1px;'>" + word + '</button>');
+                        }
+                        $("#result").append(s);
                     }
-                    $("#result").append(s);
                 }
             },
 
