@@ -19,16 +19,16 @@ body {
 }
 
 .token-score0 {
-  color: white;
-  font-weight: bold;
+  color: black;
+  font-weight: bolder;
 }
 
 .token-score1 {
-  color: white;
+  color: black;
 }
 
 .token-score2 {
-  color: lightgray;
+  color: gray;
 }
 
 .token-score3 {
@@ -52,9 +52,10 @@ body {
   display: none;
   margin: 10px 0;
   padding: 10px 10px;
-  background: #6aa7cd;
+  background: lavenderblush;
   pointer-events: none;
   border-radius: 5px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
 }
 
 .token-info::before {
@@ -64,7 +65,7 @@ body {
   left: 26%;
   margin-left: -15px;
   border: 15px solid transparent;
-  border-bottom: 15px solid #6aa7cd;
+  border-bottom: 15px solid lavenderblush;
 }
 
 .token-btn1:hover + .token-info {
