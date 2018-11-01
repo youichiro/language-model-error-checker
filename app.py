@@ -25,7 +25,7 @@ def correction_api():
     for text in texts:
         text = text.strip()
         tokens += checker.correction(text)
-        tokens += [["ほげ", 0]]
+        tokens += [["", 0]]
     return jsonify(({'tokens': tokens}))
 
 
