@@ -35,9 +35,10 @@ def correction_api():
 # def correction_api():
 #     text = request.args.get('input_text')
 #     words, _ = mecab.tagger(text)
-#     tokens = [[word, 0] for word in words]
+#     tokens = [[word, 0, {}] for word in words]
 #     if tokens:
 #         tokens[0][1] = 1
+#         tokens[0][2] = {'keys': ['が', 'を', 'に', 'で'], 'scores': [0.401, 0.301, 0.201, 0.101]}
 #     return jsonify(({'tokens': tokens}))
 
 
