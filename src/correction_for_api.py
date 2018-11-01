@@ -34,8 +34,8 @@ class Checker:
         best_particle = '' if best_particle == 'none' else best_particle
         score = dict(sorted(score.items(), key=lambda x: x[1], reverse=True))
         d = {
-            keys: list(score.keys()),
-            values: list(score.values())
+            'keys': list(score.keys()),
+            'values': list(score.values())
         }
         return best_particle, d
 
