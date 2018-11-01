@@ -24,7 +24,7 @@ class Checker:
     def best_choice(self, words, idx, choices):
         words = words[::-1]
         idx = len(words) - 1 - idx
-        score = OrderedDict()
+        score = {}
         for c in choices:
             if c:
                 score[c] = self.lm.probability(words[:idx] + [c] + words[idx+1:])
@@ -32,8 +32,12 @@ class Checker:
                 score['none'] = self.lm.probability(words[:idx] + words[idx+1:])
         best_particle = max(score, key=score.get)
         best_particle = '' if best_particle == 'none' else best_particle
-        score = OrderedDict(sorted(score.items(), key=lambda x: x[1], reverse=True)
-        return best_particle, score
+        score = dict(sorted(score.items(), key=lambda x: x[1], reverse=True))
+        d = {
+            keys: list(score.keys()),
+            values: list(score.values())
+        }
+        return best_particle, d
 
 
     def correction(self, text):
