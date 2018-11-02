@@ -16,10 +16,7 @@
 <div class="card">
     <div class="card-header">結果</div>
     <div class="card-body">
-        <div id="checkbox">
-            <input type="checkbox"> <label>予測結果を表示</label>
-        </div>
-        <div id="test"><button type="button">ほげ</button></div>
+        <div id="check-btn"><button type="button">予測結果を表示</button></div>
         <div id="result"></div>
     </div>
 </div>
@@ -28,9 +25,9 @@
 {% block javascript %}
 
 <script>
-    $("#checkbox").hide();
+    $("#check-btn").hide();
     $("#input_text").keyup(function() {
-        $("#checkbox").show();
+        $("#check-btn").show();
         var inputData = {};
         inputData["input_text"] = $(this).val();
         $.ajax({
@@ -73,11 +70,7 @@
         });
     });
 
-    $("#checkbox").click(function() {
-        $(".token-info").slideToggle();
-    });
-
-    $("#test").click(function() {
+    $("#check-btn").click(function() {
         $(".token-info").slideToggle();
     });
 </script>
