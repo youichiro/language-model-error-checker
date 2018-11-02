@@ -72,9 +72,10 @@
         });
     });
 
-    $(".token-info").hide();
     $("#checkbox").click(function() {
-        $(".token-info").slideToggle(this.checked);
+        if (this.checked) {
+            $(".token-info").slideToggle(this.checked);
+        }
     });
 </script>
 {% endblock %}
