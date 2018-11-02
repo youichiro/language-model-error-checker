@@ -72,8 +72,9 @@
         });
     });
 
+    $(".token-info").hide();
     $("#checkbox").click(function() {
-        $(".token-info").toggle(this.checked);
+        $(".token-info").slideToggle(this.checked);
     });
 </script>
 {% endblock %}
