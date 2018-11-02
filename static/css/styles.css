@@ -72,6 +72,10 @@ body {
   display: block;
 }
 
+#checkbox {
+  text-align: right;
+}
+
 .footer {
   position: fixed;
   bottom: 0;

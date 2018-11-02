@@ -16,15 +16,20 @@
 <div class="card">
     <div class="card-header">結果</div>
     <div class="card-body">
+        <div id="checkbox">
+            <input type="checkbox"> <label>予測結果を表示</label>
+        </div>
         <div id="result"></div>
     </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
+
 <script>
-    //リアルタイムキー入力を獲得
+    $("#checkbox").hide();
     $("#input_text").keyup(function() {
+        $("#checkbox").show();
         var inputData = {};
         inputData["input_text"] = $(this).val();
         $.ajax({
@@ -65,6 +70,10 @@
                 console.log("error");
             }
         });
+    });
+
+    $("#checkbox").click(function() {
+        $(".token-info").slideToggle(this.checked);
     });
 </script>
 {% endblock %}
