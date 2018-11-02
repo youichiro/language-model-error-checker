@@ -73,8 +73,10 @@
     });
 
     $("#checkbox").click(function() {
-        if (this.checked) {
-            $(".token-info").slideToggle(this.checked);
+        if (this.is(":checked")) {
+            $(".token-info").slideToggle();
+        } else {
+            $(".token-info").hide();
         }
     });
 </script>
