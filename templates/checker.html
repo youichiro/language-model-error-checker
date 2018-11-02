@@ -19,6 +19,7 @@
         <div id="checkbox">
             <input type="checkbox"> <label>予測結果を表示</label>
         </div>
+        <div id="test"><button type="button">ほげ</button></div>
         <div id="result"></div>
     </div>
 </div>
@@ -76,8 +77,8 @@
         $(".token-info").slideToggle();
     });
 
-    $(".token-btn1").hover(function() {
-        $(this).css("display", "block");
+    $("#test").click(function() {
+        $(".token-info").slideToggle();
     });
 </script>
 {% endblock %}
