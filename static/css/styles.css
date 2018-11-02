@@ -68,10 +68,6 @@ body {
   border-bottom: 15px solid lavenderblush;
 }
 
-.token-btn1:hover + .token-info {
-  display: block;
-}
-
 #checkbox {
   text-align: right;
 }
