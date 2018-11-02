@@ -72,13 +72,8 @@
         });
     });
 
-    console.log($("#checkbox").prop("checked"));
     $("#checkbox").click(function() {
-        if (this.is(":checked")) {
-            $(".token-info").slideToggle();
-        } else {
-            $(".token-info").hide();
-        }
+        $(".token-info").slideToggle();
     });
 </script>
 {% endblock %}
