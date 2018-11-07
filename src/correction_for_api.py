@@ -34,8 +34,9 @@ class Checker:
         best_particle = '' if best_particle == 'none' else best_particle
         sorted_score = sorted(score.items(), key=lambda x: x[1], reverse=True)
         keys = [k for k, v in sorted_score]
-        scores = [-1.0 / v for k, v in sorted_score]
-        scores = ['{:.3f}'.format(s / sum(scores)) for s in scores]
+        scores = ['{:.1f}'.format(v) for k, v in sorted_score]
+        # scores = [-1.0 / v for k, v in sorted_score]
+        # scores = ['{:.3f}'.format(s / sum(scores)) for s in scores]
         d = {
             'keys': keys,
             'scores': scores
