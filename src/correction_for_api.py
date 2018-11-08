@@ -34,9 +34,8 @@ class Checker:
         best_particle = '' if best_particle == 'none' else best_particle
         sorted_score = sorted(score.items(), key=lambda x: x[1], reverse=True)
         keys = [k for k, v in sorted_score]
-        scores = ['{:.1f}'.format(v) for k, v in sorted_score]
-        # scores = [-1.0 / v for k, v in sorted_score]
-        # scores = ['{:.3f}'.format(s / sum(scores)) for s in scores]
+        scores = [2 ** v for k, v in sorted_score]
+        scores = ['{:.1f}'.format(s / sum(scores) * 100) for s in scores]
         d = {
             'keys': keys,
             'scores': scores
@@ -56,10 +55,9 @@ class Checker:
             # 置換
             if parts[idx] == TARGET_POS and words[idx] in TARGET_PARTICLES:
                 best_particle, scores = self.best_choice(words, idx, TARGET_PARTICLES)
-                if words[idx] != best_particle:
-                    words[idx] = best_particle
-                    fix_flags[idx] = 1
-                    score_list[idx] = scores
+                fix_flags[idx] = 1 if words[idx] != best_particle else 2
+                words[idx] = best_particle
+                score_list[idx] = scores
             # 補完
             if self.is_missing(parts[idx], parts[idx + 1]):
                 words.insert(idx+1, 'dummy')
