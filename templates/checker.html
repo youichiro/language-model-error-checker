@@ -29,8 +29,8 @@
 <hr>
 <p>言語モデル確率をもとに、文中の格助詞「が, を, に, で」の誤りを訂正し、不足を補完します。</p>
 <p><button class="btn btn-warning">黄色の形態素</button> は訂正および補完した格助詞を示しています。</p>
-<p><button class="btn btn-success">緑色の形態素</button> は訂正した結果が入力と一致した格助詞を示しています。</p>
-<p><button class='btn btn-primary'>予測結果を表示</button> を押すと、訂正候補とそれらの予測確率を割合で表したものを表示します。</p>
+<p><button class="btn btn-success">緑色の形態素</button> は訂正をした結果、入力と一致した格助詞を示しています。</p>
+<p><button class='btn btn-primary'>予測結果を表示</button> を押すと、訂正候補とそれらの予測確率の割合を表したものを表示します。</p>
 <br>
 <h2>誤り文の例</h2>
 <hr>
@@ -73,7 +73,7 @@
                             scores = token[2]["scores"];
                             var info = '';
                             for (var i=0; i<keys.length; i++) {
-                                info += "<span class=token-score" + i + ">" + keys[i] + ": " + scores[i] + "%</span><br>"
+                                info += "<span class='token-score" + i + "'>" + keys[i] + ": " + scores[i] + "%</span><br>"
                             }
                             s = $("<div class='token-item'><button type='button' class='btn " + btnType + " token-btn'>" + word + "</button>\
                                 <div class='token-info'>" + info +"</div></div>");

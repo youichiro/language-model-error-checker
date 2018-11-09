@@ -6,8 +6,8 @@ from src.correction_for_api import Checker
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
-# model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
+# model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
+model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
 mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
 mecab = Mecab(mecab_dict_file)
 checker = Checker(model_file, mecab_dict_file)
@@ -15,8 +15,8 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    # base_url = ''
-    base_url = 'grammatical-error-checker'
+    base_url = ''
+    # base_url = 'grammatical-error-checker'
     return render_template('checker.html', base_url=base_url)
 
 
