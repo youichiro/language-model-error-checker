@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from src.mecab import Mecab
@@ -6,9 +8,19 @@ from src.correction_for_api import Checker
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
+
+# local
+# model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
+# mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
+
+# nlp
 # model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
-mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
+# mecab_dict_file = '/tools/env/lib/mecab/dic/unidic/'
+
+# docker
+model_file = '/home/tools/kenlm/data/nikkei_all_4.binary'
+mecab_dict_file = '/usr/lib64/mecab/dic/unidic'
+
 mecab = Mecab(mecab_dict_file)
 checker = Checker(model_file, mecab_dict_file)
 
