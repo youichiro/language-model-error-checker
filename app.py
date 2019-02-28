@@ -10,11 +10,11 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 # local
-# model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
+# model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
 # mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
 
 # nlp
-# model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
+# model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
 # mecab_dict_file = '/tools/env/lib/mecab/dic/unidic/'
 
 # docker
@@ -46,4 +46,4 @@ def correction_api():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='127.0.0.1', port=8893)
+    app.run(host='0.0.0.0', port=5000)
