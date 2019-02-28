@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from src.mecab import Mecab
@@ -10,6 +12,7 @@ from src.correction_for_api import Checker
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 bootstrap = Bootstrap(app)
+DOMAIN = os.environ.get('DOMAIN', '')
 
 # local
 # model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
@@ -29,7 +32,7 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    return render_template('checker.html')
+    return render_template('checker.html', domain=DOMAIN)
 
 
 @app.route('/api/correction', methods=['GET'])
