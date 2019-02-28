@@ -29,7 +29,7 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    return render_template('checker.html', base_url=base_url)
+    return render_template('checker.html')
 
 
 @app.route('/api/correction', methods=['GET'])
