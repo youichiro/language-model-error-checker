@@ -45,14 +45,15 @@ WORKDIR /home
 RUN git clone https://db07bc1dc6b5ced230d48b4dc0bf4be3e6cff2f2:x-oauth-basic@github.com/youichiro/language-model-error-checker.git
 
 # pip install
-RUN pip3.6 install flask flask-bootstrap mecab-python3 \
+RUN pip3.6 install flask flask-bootstrap mecab-python3 gunicorn \
                    https://github.com/kpu/kenlm/archive/master.zip
 
 # 公開ポート
 EXPOSE 5000
 
 # 実行コマンド
-CMD ["python3.6", "/home/language-model-error-checker/app.py"]
+WORKDIR /home/language-model-error-checker
+CMD [ "gunicorn", "-b", "0.0.0.0:5000", "-w", "1", "app:app" ]
 
 
 # docker build -t lm-checker-image .
