@@ -12,19 +12,21 @@ from src.correction_for_api import Checker
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 bootstrap = Bootstrap(app)
-DOMAIN = os.environ.get('DOMAIN', '')
+URL_PREFIX = os.environ.get('URL_PREFIX', '')
+if URL_PREFIX:
+    URL_PREFIX = 'http://' + URL_PREFIX
 
 # local
-model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
-mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
+# model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
+# mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
 
 # nlp
 # model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
 # mecab_dict_file = '/tools/env/lib/mecab/dic/unidic/'
 
 # docker
-# model_file = '/home/tools/kenlm/data/nikkei_all_4.binary'
-# mecab_dict_file = '/usr/lib64/mecab/dic/unidic'
+model_file = '/home/tools/kenlm/data/nikkei_all_4.binary'
+mecab_dict_file = '/usr/lib64/mecab/dic/unidic'
 
 mecab = Mecab(mecab_dict_file)
 checker = Checker(model_file, mecab_dict_file)
@@ -32,7 +34,7 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    return render_template('checker.html', domain=DOMAIN)
+    return render_template('checker.html', prefix=URL_PREFIX)
 
 
 @app.route('/api/correction', methods=['GET'])
@@ -49,5 +51,5 @@ def correction_api():
 
 if __name__ == '__main__':
     app.debug = True
-    # app.run(host='0.0.0.0', port=5000)
-    app.run(host='127.0.0.1', port=8893)
+    app.run(host='0.0.0.0', port=5000)
+    # app.run(host='127.0.0.1', port=8893)
