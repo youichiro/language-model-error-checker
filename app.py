@@ -2,12 +2,14 @@
 
 import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_bootstrap import Bootstrap
 from src.mecab import Mecab
 from src.correction_for_api import Checker
 
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+bootstrap = Bootstrap(app)
 
 # local
 # model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
@@ -27,8 +29,6 @@ checker = Checker(model_file, mecab_dict_file)
 
 @app.route('/', methods=['GET', 'POST'])
 def top():
-    # base_url = ''
-    base_url = 'grammatical-error-checker'
     return render_template('checker.html', base_url=base_url)
 
 
@@ -47,3 +47,4 @@ def correction_api():
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
+    # app.run(host='127.0.0.1', port=8893)
