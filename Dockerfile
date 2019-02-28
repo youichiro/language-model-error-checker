@@ -53,3 +53,8 @@ EXPOSE 5000
 
 # 実行コマンド
 CMD ["python3.6", "/home/language-model-error-checker/app.py"]
+
+
+# docker build -t lm-checker-image .
+# docker run --name lm-checker-container -d -p <PORT>:5000 -v ~/KENLM/BINARY/FILE/PATH:/home/tools/kenlm/data lm-checker-image
+
