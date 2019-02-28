@@ -15,16 +15,16 @@ bootstrap = Bootstrap(app)
 DOMAIN = os.environ.get('DOMAIN', '')
 
 # local
-# model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
-# mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
+model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
+mecab_dict_file = '/usr/local/lib/mecab/dic/unidic'
 
 # nlp
 # model_file = '/home/ogawa/tools/kenlm_data/nikkei_all_4.binary'
 # mecab_dict_file = '/tools/env/lib/mecab/dic/unidic/'
 
 # docker
-model_file = '/home/tools/kenlm/data/nikkei_all_4.binary'
-mecab_dict_file = '/usr/lib64/mecab/dic/unidic'
+# model_file = '/home/tools/kenlm/data/nikkei_all_4.binary'
+# mecab_dict_file = '/usr/lib64/mecab/dic/unidic'
 
 mecab = Mecab(mecab_dict_file)
 checker = Checker(model_file, mecab_dict_file)
@@ -49,5 +49,5 @@ def correction_api():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(host='127.0.0.1', port=8893)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=8893)
