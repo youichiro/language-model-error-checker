@@ -14,7 +14,7 @@ app.config['JSON_AS_ASCII'] = False
 bootstrap = Bootstrap(app)
 URL_PREFIX = os.environ.get('URL_PREFIX', '')
 if URL_PREFIX:
-    URL_PREFIX = 'http://' + URL_PREFIX
+    URL_PREFIX = '//' + URL_PREFIX
 
 # local
 # model_file = '/Users/you_pro/workspace/tools/kenlm/data/nikkei_all_4.binary'
