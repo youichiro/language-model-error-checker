@@ -41,7 +41,7 @@ def main():
         ans_words, ans_parts = mecab.tagger(ans)
         corrected_words =  err_words[::]
 
-        for idx in len(err_words) - 1:
+        for idx in range(len(err_words) - 1):
             if err_parts[idx] == TARGET_POS and err_words[idx] in TARGET_PARTICLES:
                 predict = choice(err_words, idx)
                 corrected_words[idx] = predict
