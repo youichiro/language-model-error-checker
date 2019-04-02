@@ -55,7 +55,7 @@ def main():
         if reverse: target_idx[::-1]
 
         # 訂正箇所が1箇所か複数か
-        is_one_error = True if len(target_idx) else False
+        is_one_error = True if len(target_idx) == 1 else False
         if is_one_error: n_of_one += 1
 
         for idx in target_idx:
