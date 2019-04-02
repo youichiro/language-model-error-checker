@@ -10,7 +10,7 @@ mecab_dict_dir = os.environ['MECABDIC']
 mecab = Mecab(mecab_dict_dir)
 
 
-def choice(words, target_idx):
+def choice(words, target_idx, lm):
     scores = []
     for p in TARGET_PARTICLES:
         candidate = words[:target_idx] + [p] + words[target_idx+1:]
@@ -43,7 +43,7 @@ def main():
 
         for idx in range(len(err_words) - 1):
             if err_parts[idx] == TARGET_POS and err_words[idx] in TARGET_PARTICLES:
-                predict = choice(err_words, idx)
+                predict = choice(err_words, idx, lm)
                 corrected_words[idx] = predict
 
         corrected = ''.join(corrected_words)
