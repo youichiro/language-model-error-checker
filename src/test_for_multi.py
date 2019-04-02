@@ -49,7 +49,8 @@ def main():
         # 訂正箇所
         target_idx = [idx for idx in range(len(err_words) - 1)
                       if err_parts[idx] == TARGET_POS
-                      and err_words[idx] in TARGET_PARTICLES]
+                      and err_words[idx] in TARGET_PARTICLES
+                      and idx != 0 and idx != len(err_words) - 1]
 
         # 文末から訂正
         if reverse: target_idx[::-1]
