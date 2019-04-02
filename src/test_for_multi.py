@@ -86,14 +86,17 @@ def main():
     Accuracy: {total_acc:.5}%
     # sentence: {n+1}
     # total prediction: {total_prediction_num}
+    # correct prediction: {acc}
     \n[For one error]
     Accuracy: {one_acc:.5}%
     # sentence: {n_of_one}
     # total prediction: {n_of_one}
+    # correct prediction: {acc_of_one}
     \n[For multiple error]
     Accuracy: {multi_acc:.5}%
     # sentence: {(n+1) - n_of_one}
     # total prediction: {total_prediction_num - n_of_one}
+    # correct prediction: {acc - acc_of_one}
     """)
 
 if __name__ == '__main__':
