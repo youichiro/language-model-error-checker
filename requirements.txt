@@ -5,5 +5,5 @@ Jinja2==2.10
 kenlm==0.0.0
 MarkupSafe==1.1.1
 mecab-python3==0.996.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 Flask-Bootstrap==3.3.7.1
