@@ -1,7 +1,7 @@
 Click==7.0
 Flask==1.0.2
 itsdangerous==1.1.0
-Jinja2==2.10
+Jinja2==2.11.3
 kenlm==0.0.0
 MarkupSafe==1.1.1
 mecab-python3==0.996.1
